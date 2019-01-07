@@ -3,9 +3,16 @@ const http = require("http");
 const socketIo = require("socket.io");
 const axios = require("axios");
 const port = process.env.PORT || 4001;
-const index = require("./routes/index");
 const app = express();
-app.use(index);
+app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, 'build')));
+app.get('/test', function (req, res) {
+  return res.send('success');
+ });
+ app.get('/', function (req, res) {
+   res.sendFile(path.join(__dirname, 'build', 'index.html'));
+ });
+
 const server = http.createServer(app);
 const io = socketIo(server);
 
